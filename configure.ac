@@ -20,7 +20,7 @@ AC_PATH_TOOL(STRIP, strip)
 AM_PROG_CC_C_O
 AC_PROG_CC_C99
 
-CFLAGS="$CFLAGS -W"
+CFLAGS="$CFLAGS -W -fPIC"
 
 warn_CFLAGS="-std=gnu99 -pedantic -Wno-unused-function -Wno-long-long -Wno-overlength-strings -Werror=return-type"
 saved_CFLAGS="$CFLAGS"
