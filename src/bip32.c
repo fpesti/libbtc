@@ -312,6 +312,7 @@ btc_bool btc_hd_generate_key(btc_hdnode* node, const char* keypath, const uint8_
     uint64_t idx = 0;
     assert(strlens(keypath) < 1024);
     char *pch, *kp = btc_malloc(strlens(keypath) + 1);
+    char *saveptr; /* for strtok_r calls - fix for concurrent calls error*/
 
     if (!kp) {
         return false;
@@ -339,7 +340,7 @@ btc_bool btc_hd_generate_key(btc_hdnode* node, const char* keypath, const uint8_
         btc_hdnode_fill_public_key(node);
     }
 
-    pch = strtok(kp + 2, delim);
+    pch = strtok_r(kp + 2, delim, &saveptr);
     while (pch != NULL) {
         size_t i = 0;
         int prm = 0;
@@ -368,7 +369,7 @@ btc_bool btc_hd_generate_key(btc_hdnode* node, const char* keypath, const uint8_
                 goto err;
             }
         }
-        pch = strtok(NULL, delim);
+        pch = strtok_r(NULL, delim, &saveptr);
     }
     btc_free(kp);
     return true;
